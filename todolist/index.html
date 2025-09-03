@@ -1,0 +1,214 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>오늘의 할일 - Today's Todo</title>
+    <link rel="stylesheet" href="styles.css">
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;500;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+</head>
+<body>
+    <div class="app-container">
+        <!-- Header -->
+        <header class="header">
+            <div class="header-content">
+                <h1 class="app-title">
+                    <i class="fas fa-check-circle"></i>
+                    오늘의 할일
+                </h1>
+                <div class="header-controls">
+                    <div class="stats">
+                        <span class="stat-item">
+                            <i class="fas fa-tasks"></i>
+                            <span id="total-todos">0</span>
+                        </span>
+                        <span class="stat-item">
+                            <i class="fas fa-check"></i>
+                            <span id="completed-todos">0</span>
+                        </span>
+                    </div>
+                    <button class="theme-toggle" id="theme-toggle" aria-label="테마 변경">
+                        <i class="fas fa-moon"></i>
+                    </button>
+                </div>
+            </div>
+        </header>
+
+        <!-- Main Content -->
+        <main class="main-content">
+            <!-- Add Todo Form -->
+            <section class="add-todo-section">
+                <form class="add-todo-form" id="add-todo-form">
+                    <div class="input-group">
+                        <input 
+                            type="text" 
+                            id="todo-input" 
+                            class="todo-input" 
+                            placeholder="새로운 할일을 입력하세요..."
+                            maxlength="100"
+                            required
+                        >
+                        <div class="priority-selector">
+                            <label class="priority-label" for="priority-high">
+                                <input type="radio" name="priority" value="high" id="priority-high">
+                                <span class="priority-indicator high"></span>
+                                <span class="priority-text">높음</span>
+                            </label>
+                            <label class="priority-label" for="priority-medium">
+                                <input type="radio" name="priority" value="medium" id="priority-medium" checked>
+                                <span class="priority-indicator medium"></span>
+                                <span class="priority-text">보통</span>
+                            </label>
+                            <label class="priority-label" for="priority-low">
+                                <input type="radio" name="priority" value="low" id="priority-low">
+                                <span class="priority-indicator low"></span>
+                                <span class="priority-text">낮음</span>
+                            </label>
+                        </div>
+                        <button type="submit" class="add-button" aria-label="할일 추가">
+                            <i class="fas fa-plus"></i>
+                        </button>
+                    </div>
+                </form>
+            </section>
+
+            <!-- Todo List -->
+            <section class="todo-list-section">
+                <div class="list-header">
+                    <h2 class="section-title">할일 목록</h2>
+                    <div class="filter-controls">
+                        <button class="filter-btn active" data-filter="all">전체</button>
+                        <button class="filter-btn" data-filter="pending">진행중</button>
+                        <button class="filter-btn" data-filter="completed">완료</button>
+                    </div>
+                </div>
+                
+                <div class="todo-list" id="todo-list">
+                    <!-- Empty State -->
+                    <div class="empty-state" id="empty-state">
+                        <div class="empty-icon">
+                            <i class="fas fa-clipboard-list"></i>
+                        </div>
+                        <h3>할일이 없습니다</h3>
+                        <p>새로운 할일을 추가해보세요!</p>
+                    </div>
+
+                    <!-- Sample Todo Items (for design preview) -->
+                    <div class="todo-item high-priority" data-id="sample-1">
+                        <div class="todo-content">
+                            <input type="checkbox" class="todo-checkbox" id="todo-1">
+                            <label for="todo-1" class="todo-text">
+                                중요한 회의 준비하기
+                            </label>
+                            <div class="todo-meta">
+                                <span class="priority-badge high">높음</span>
+                                <span class="todo-date">2025-01-04</span>
+                            </div>
+                        </div>
+                        <div class="todo-actions">
+                            <button class="action-btn edit-btn" aria-label="수정">
+                                <i class="fas fa-edit"></i>
+                            </button>
+                            <button class="action-btn delete-btn" aria-label="삭제">
+                                <i class="fas fa-trash"></i>
+                            </button>
+                        </div>
+                    </div>
+
+                    <div class="todo-item medium-priority" data-id="sample-2">
+                        <div class="todo-content">
+                            <input type="checkbox" class="todo-checkbox" id="todo-2" checked>
+                            <label for="todo-2" class="todo-text completed">
+                                이메일 확인하기
+                            </label>
+                            <div class="todo-meta">
+                                <span class="priority-badge medium">보통</span>
+                                <span class="todo-date">2025-01-04</span>
+                            </div>
+                        </div>
+                        <div class="todo-actions">
+                            <button class="action-btn edit-btn" aria-label="수정">
+                                <i class="fas fa-edit"></i>
+                            </button>
+                            <button class="action-btn delete-btn" aria-label="삭제">
+                                <i class="fas fa-trash"></i>
+                            </button>
+                        </div>
+                    </div>
+
+                    <div class="todo-item low-priority" data-id="sample-3">
+                        <div class="todo-content">
+                            <input type="checkbox" class="todo-checkbox" id="todo-3">
+                            <label for="todo-3" class="todo-text">
+                                독서하기
+                            </label>
+                            <div class="todo-meta">
+                                <span class="priority-badge low">낮음</span>
+                                <span class="todo-date">2025-01-04</span>
+                            </div>
+                        </div>
+                        <div class="todo-actions">
+                            <button class="action-btn edit-btn" aria-label="수정">
+                                <i class="fas fa-edit"></i>
+                            </button>
+                            <button class="action-btn delete-btn" aria-label="삭제">
+                                <i class="fas fa-trash"></i>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </main>
+
+        <!-- Footer -->
+        <footer class="footer">
+            <div class="footer-content">
+                <p>&copy; 2025 Today's Todo. Made with <i class="fas fa-heart"></i></p>
+                <div class="footer-links">
+                    <button class="footer-btn" id="export-btn">내보내기</button>
+                    <button class="footer-btn" id="import-btn">가져오기</button>
+                </div>
+            </div>
+        </footer>
+    </div>
+
+    <!-- Edit Modal -->
+    <div class="modal" id="edit-modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3>할일 수정</h3>
+                <button class="modal-close" id="modal-close">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+            <form class="edit-form" id="edit-form">
+                <input type="text" id="edit-input" class="edit-input" required>
+                <div class="edit-priority">
+                    <label class="priority-label" for="edit-priority-high">
+                        <input type="radio" name="edit-priority" value="high" id="edit-priority-high">
+                        <span class="priority-indicator high"></span>
+                        <span class="priority-text">높음</span>
+                    </label>
+                    <label class="priority-label" for="edit-priority-medium">
+                        <input type="radio" name="edit-priority" value="medium" id="edit-priority-medium">
+                        <span class="priority-indicator medium"></span>
+                        <span class="priority-text">보통</span>
+                    </label>
+                    <label class="priority-label" for="edit-priority-low">
+                        <input type="radio" name="edit-priority" value="low" id="edit-priority-low">
+                        <span class="priority-indicator low"></span>
+                        <span class="priority-text">낮음</span>
+                    </label>
+                </div>
+                <div class="modal-actions">
+                    <button type="button" class="btn btn-secondary" id="cancel-edit">취소</button>
+                    <button type="submit" class="btn btn-primary">저장</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
