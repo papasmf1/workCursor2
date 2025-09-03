@@ -1,4 +1,4 @@
-/* CSS Reset and Base Styles */
+/* shadcn/ui New York Style - CSS Reset and Base Styles */
 * {
     margin: 0;
     padding: 0;
@@ -6,80 +6,110 @@
 }
 
 :root {
-    /* Light Theme Colors */
-    --primary-color: #4A90E2;
-    --secondary-color: #7B68EE;
-    --background-color: #FFFFFF;
-    --surface-color: #F8F9FA;
-    --text-primary: #2C3E50;
-    --text-secondary: #6C757D;
-    --border-color: #E9ECEF;
-    --shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
-    --shadow-hover: 0 4px 20px rgba(0, 0, 0, 0.15);
+    /* shadcn/ui New York Light Theme */
+    --background: 0 0% 100%;
+    --foreground: 240 10% 3.9%;
+    --card: 0 0% 100%;
+    --card-foreground: 240 10% 3.9%;
+    --popover: 0 0% 100%;
+    --popover-foreground: 240 10% 3.9%;
+    --primary: 240 5.9% 10%;
+    --primary-foreground: 0 0% 98%;
+    --secondary: 240 4.8% 95.9%;
+    --secondary-foreground: 240 5.9% 10%;
+    --muted: 240 4.8% 95.9%;
+    --muted-foreground: 240 3.8% 46.1%;
+    --accent: 240 4.8% 95.9%;
+    --accent-foreground: 240 5.9% 10%;
+    --destructive: 0 84.2% 60.2%;
+    --destructive-foreground: 0 0% 98%;
+    --border: 240 5.9% 90%;
+    --input: 240 5.9% 90%;
+    --ring: 240 5.9% 10%;
+    --radius: 0.5rem;
     
-    /* Priority Colors */
-    --priority-high: #FF6B6B;
-    --priority-medium: #FFA726;
-    --priority-low: #66BB6A;
+    /* Priority Colors - New York Style */
+    --priority-high: 0 84.2% 60.2%;
+    --priority-medium: 38 92% 50%;
+    --priority-low: 142 76% 36%;
     
-    /* Status Colors */
-    --success-color: #28A745;
-    --warning-color: #FFC107;
-    --danger-color: #DC3545;
+    /* Spacing - shadcn/ui scale */
+    --spacing-1: 0.25rem;
+    --spacing-2: 0.5rem;
+    --spacing-3: 0.75rem;
+    --spacing-4: 1rem;
+    --spacing-5: 1.25rem;
+    --spacing-6: 1.5rem;
+    --spacing-8: 2rem;
+    --spacing-10: 2.5rem;
+    --spacing-12: 3rem;
     
-    /* Spacing */
-    --spacing-xs: 0.25rem;
-    --spacing-sm: 0.5rem;
-    --spacing-md: 1rem;
-    --spacing-lg: 1.5rem;
-    --spacing-xl: 2rem;
+    /* Typography */
+    --font-sans: ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, "Noto Sans", sans-serif;
+    --font-mono: ui-monospace, SFMono-Regular, "SF Mono", Consolas, "Liberation Mono", Menlo, monospace;
     
-    /* Border Radius */
-    --radius-sm: 4px;
-    --radius-md: 8px;
-    --radius-lg: 12px;
-    
-    /* Transitions */
-    --transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    /* Shadows - New York Style */
+    --shadow-sm: 0 1px 2px 0 rgb(0 0 0 / 0.05);
+    --shadow: 0 1px 3px 0 rgb(0 0 0 / 0.1), 0 1px 2px -1px rgb(0 0 0 / 0.1);
+    --shadow-md: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);
+    --shadow-lg: 0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1);
+    --shadow-xl: 0 20px 25px -5px rgb(0 0 0 / 0.1), 0 8px 10px -6px rgb(0 0 0 / 0.1);
 }
 
-/* Dark Theme */
+/* Dark Theme - shadcn/ui New York */
 [data-theme="dark"] {
-    --background-color: #1A1A1A;
-    --surface-color: #2D2D2D;
-    --text-primary: #FFFFFF;
-    --text-secondary: #B0B0B0;
-    --border-color: #404040;
-    --shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
-    --shadow-hover: 0 4px 20px rgba(0, 0, 0, 0.4);
+    --background: 240 10% 3.9%;
+    --foreground: 0 0% 98%;
+    --card: 240 10% 3.9%;
+    --card-foreground: 0 0% 98%;
+    --popover: 240 10% 3.9%;
+    --popover-foreground: 0 0% 98%;
+    --primary: 0 0% 98%;
+    --primary-foreground: 240 5.9% 10%;
+    --secondary: 240 3.7% 15.9%;
+    --secondary-foreground: 0 0% 98%;
+    --muted: 240 3.7% 15.9%;
+    --muted-foreground: 240 5% 64.9%;
+    --accent: 240 3.7% 15.9%;
+    --accent-foreground: 0 0% 98%;
+    --destructive: 0 62.8% 30.6%;
+    --destructive-foreground: 0 0% 98%;
+    --border: 240 3.7% 15.9%;
+    --input: 240 3.7% 15.9%;
+    --ring: 240 4.9% 83.9%;
+    
+    --priority-high: 0 62.8% 30.6%;
+    --priority-medium: 38 92% 50%;
+    --priority-low: 142 76% 36%;
 }
 
-/* Base Styles */
+/* Base Styles - shadcn/ui New York */
 body {
-    font-family: 'Noto Sans KR', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-    background-color: var(--background-color);
-    color: var(--text-primary);
-    line-height: 1.6;
-    transition: var(--transition);
+    font-family: var(--font-sans);
+    background-color: hsl(var(--background));
+    color: hsl(var(--foreground));
+    line-height: 1.5;
+    font-feature-settings: "rlig" 1, "calt" 1;
+    transition: color 0.2s ease-in-out, background-color 0.2s ease-in-out;
 }
 
 .app-container {
     min-height: 100vh;
     display: flex;
     flex-direction: column;
-    max-width: 800px;
+    max-width: 48rem; /* 768px */
     margin: 0 auto;
-    padding: var(--spacing-md);
+    padding: var(--spacing-6);
+    gap: var(--spacing-6);
 }
 
-/* Header Styles */
+/* Header Styles - shadcn/ui New York */
 .header {
-    background: var(--surface-color);
-    border-radius: var(--radius-lg);
-    padding: var(--spacing-lg);
-    margin-bottom: var(--spacing-xl);
-    box-shadow: var(--shadow);
-    border: 1px solid var(--border-color);
+    background: hsl(var(--card));
+    border: 1px solid hsl(var(--border));
+    border-radius: var(--radius);
+    padding: var(--spacing-6);
+    box-shadow: var(--shadow-sm);
 }
 
 .header-content {
@@ -87,81 +117,89 @@ body {
     justify-content: space-between;
     align-items: center;
     flex-wrap: wrap;
-    gap: var(--spacing-md);
+    gap: var(--spacing-4);
 }
 
 .app-title {
-    font-size: 1.8rem;
-    font-weight: 700;
-    color: var(--primary-color);
+    font-size: 1.875rem; /* 30px */
+    font-weight: 600;
+    color: hsl(var(--foreground));
     display: flex;
     align-items: center;
-    gap: var(--spacing-sm);
+    gap: var(--spacing-2);
+    letter-spacing: -0.025em;
 }
 
 .app-title i {
     font-size: 1.5rem;
+    color: hsl(var(--primary));
 }
 
 .header-controls {
     display: flex;
     align-items: center;
-    gap: var(--spacing-lg);
+    gap: var(--spacing-4);
 }
 
 .stats {
     display: flex;
-    gap: var(--spacing-md);
+    gap: var(--spacing-3);
 }
 
 .stat-item {
     display: flex;
     align-items: center;
-    gap: var(--spacing-xs);
-    font-size: 0.9rem;
-    color: var(--text-secondary);
-    background: var(--background-color);
-    padding: var(--spacing-sm) var(--spacing-md);
-    border-radius: var(--radius-md);
-    border: 1px solid var(--border-color);
+    gap: var(--spacing-1);
+    font-size: 0.875rem;
+    color: hsl(var(--muted-foreground));
+    background: hsl(var(--muted));
+    padding: var(--spacing-2) var(--spacing-3);
+    border-radius: calc(var(--radius) - 2px);
+    border: 1px solid hsl(var(--border));
+    font-weight: 500;
 }
 
 .stat-item i {
-    color: var(--primary-color);
+    color: hsl(var(--primary));
+    font-size: 0.875rem;
 }
 
 .theme-toggle {
-    background: var(--primary-color);
-    color: white;
+    background: hsl(var(--primary));
+    color: hsl(var(--primary-foreground));
     border: none;
-    padding: var(--spacing-sm) var(--spacing-md);
-    border-radius: var(--radius-md);
+    padding: var(--spacing-2) var(--spacing-3);
+    border-radius: calc(var(--radius) - 2px);
     cursor: pointer;
-    transition: var(--transition);
-    font-size: 1rem;
+    transition: all 0.2s ease-in-out;
+    font-size: 0.875rem;
+    font-weight: 500;
+    display: flex;
+    align-items: center;
+    gap: var(--spacing-1);
 }
 
 .theme-toggle:hover {
-    background: var(--secondary-color);
-    transform: translateY(-2px);
-    box-shadow: var(--shadow-hover);
+    background: hsl(var(--primary) / 0.9);
+    transform: translateY(-1px);
+    box-shadow: var(--shadow-md);
 }
 
-/* Main Content */
+/* Main Content - shadcn/ui New York */
 .main-content {
     flex: 1;
     display: flex;
     flex-direction: column;
-    gap: var(--spacing-xl);
+    gap: var(--spacing-6);
 }
 
-/* Add Todo Section */
+/* Add Todo Section - shadcn/ui New York */
 .add-todo-section {
-    background: var(--surface-color);
-    border-radius: var(--radius-lg);
-    padding: var(--spacing-lg);
-    box-shadow: var(--shadow);
-    border: 1px solid var(--border-color);
+    background: hsl(var(--card));
+    border: 1px solid hsl(var(--border));
+    border-radius: var(--radius);
+    padding: var(--spacing-6);
+    box-shadow: var(--shadow-sm);
 }
 
 .add-todo-form {
@@ -171,29 +209,30 @@ body {
 .input-group {
     display: flex;
     flex-direction: column;
-    gap: var(--spacing-md);
+    gap: var(--spacing-4);
 }
 
 .todo-input {
     width: 100%;
-    padding: var(--spacing-md) var(--spacing-lg);
-    border: 2px solid var(--border-color);
-    border-radius: var(--radius-md);
-    font-size: 1rem;
-    background: var(--background-color);
-    color: var(--text-primary);
-    transition: var(--transition);
+    padding: var(--spacing-3) var(--spacing-4);
+    border: 1px solid hsl(var(--input));
+    border-radius: calc(var(--radius) - 2px);
+    font-size: 0.875rem;
+    background: hsl(var(--background));
+    color: hsl(var(--foreground));
+    transition: all 0.2s ease-in-out;
+    font-weight: 400;
 }
 
 .todo-input:focus {
     outline: none;
-    border-color: var(--primary-color);
-    box-shadow: 0 0 0 3px rgba(74, 144, 226, 0.1);
+    border-color: hsl(var(--ring));
+    box-shadow: 0 0 0 2px hsl(var(--ring) / 0.2);
 }
 
 .priority-selector {
     display: flex;
-    gap: var(--spacing-md);
+    gap: var(--spacing-3);
     justify-content: center;
     flex-wrap: wrap;
 }
@@ -201,17 +240,20 @@ body {
 .priority-label {
     display: flex;
     align-items: center;
-    gap: var(--spacing-sm);
+    gap: var(--spacing-2);
     cursor: pointer;
-    padding: var(--spacing-sm) var(--spacing-md);
-    border-radius: var(--radius-md);
-    transition: var(--transition);
-    background: var(--background-color);
-    border: 1px solid var(--border-color);
+    padding: var(--spacing-2) var(--spacing-3);
+    border-radius: calc(var(--radius) - 2px);
+    transition: all 0.2s ease-in-out;
+    background: hsl(var(--muted));
+    border: 1px solid hsl(var(--border));
+    font-size: 0.875rem;
+    font-weight: 500;
 }
 
 .priority-label:hover {
-    background: var(--surface-color);
+    background: hsl(var(--accent));
+    color: hsl(var(--accent-foreground));
 }
 
 .priority-label input[type="radio"] {
@@ -219,254 +261,279 @@ body {
 }
 
 .priority-indicator {
-    width: 12px;
-    height: 12px;
+    width: 10px;
+    height: 10px;
     border-radius: 50%;
-    border: 2px solid var(--border-color);
-    transition: var(--transition);
+    border: 1px solid hsl(var(--border));
+    transition: all 0.2s ease-in-out;
 }
 
 .priority-indicator.high {
-    background: var(--priority-high);
-    border-color: var(--priority-high);
+    background: hsl(var(--priority-high));
+    border-color: hsl(var(--priority-high));
 }
 
 .priority-indicator.medium {
-    background: var(--priority-medium);
-    border-color: var(--priority-medium);
+    background: hsl(var(--priority-medium));
+    border-color: hsl(var(--priority-medium));
 }
 
 .priority-indicator.low {
-    background: var(--priority-low);
-    border-color: var(--priority-low);
+    background: hsl(var(--priority-low));
+    border-color: hsl(var(--priority-low));
 }
 
 .priority-label input[type="radio"]:checked + .priority-indicator {
-    transform: scale(1.2);
-    box-shadow: 0 0 0 2px var(--background-color), 0 0 0 4px currentColor;
+    transform: scale(1.1);
+    box-shadow: 0 0 0 2px hsl(var(--background)), 0 0 0 3px currentColor;
 }
 
 .priority-text {
-    font-size: 0.9rem;
+    font-size: 0.875rem;
     font-weight: 500;
 }
 
 .add-button {
-    background: var(--primary-color);
-    color: white;
+    background: hsl(var(--primary));
+    color: hsl(var(--primary-foreground));
     border: none;
-    padding: var(--spacing-md) var(--spacing-lg);
-    border-radius: var(--radius-md);
+    padding: var(--spacing-3) var(--spacing-6);
+    border-radius: calc(var(--radius) - 2px);
     cursor: pointer;
-    font-size: 1rem;
-    transition: var(--transition);
+    font-size: 0.875rem;
+    font-weight: 500;
+    transition: all 0.2s ease-in-out;
     align-self: center;
     min-width: 120px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: var(--spacing-2);
 }
 
 .add-button:hover {
-    background: var(--secondary-color);
-    transform: translateY(-2px);
-    box-shadow: var(--shadow-hover);
+    background: hsl(var(--primary) / 0.9);
+    transform: translateY(-1px);
+    box-shadow: var(--shadow-md);
 }
 
-/* Todo List Section */
+/* Todo List Section - shadcn/ui New York */
 .todo-list-section {
-    background: var(--surface-color);
-    border-radius: var(--radius-lg);
-    padding: var(--spacing-lg);
-    box-shadow: var(--shadow);
-    border: 1px solid var(--border-color);
+    background: hsl(var(--card));
+    border: 1px solid hsl(var(--border));
+    border-radius: var(--radius);
+    padding: var(--spacing-6);
+    box-shadow: var(--shadow-sm);
 }
 
 .list-header {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    margin-bottom: var(--spacing-lg);
+    margin-bottom: var(--spacing-6);
     flex-wrap: wrap;
-    gap: var(--spacing-md);
+    gap: var(--spacing-4);
 }
 
 .section-title {
-    font-size: 1.3rem;
+    font-size: 1.25rem; /* 20px */
     font-weight: 600;
-    color: var(--text-primary);
+    color: hsl(var(--foreground));
+    letter-spacing: -0.025em;
 }
 
 .filter-controls {
     display: flex;
-    gap: var(--spacing-sm);
+    gap: var(--spacing-1);
 }
 
 .filter-btn {
-    padding: var(--spacing-sm) var(--spacing-md);
-    border: 1px solid var(--border-color);
-    background: var(--background-color);
-    color: var(--text-secondary);
-    border-radius: var(--radius-md);
+    padding: var(--spacing-2) var(--spacing-3);
+    border: 1px solid hsl(var(--border));
+    background: hsl(var(--background));
+    color: hsl(var(--muted-foreground));
+    border-radius: calc(var(--radius) - 2px);
     cursor: pointer;
-    transition: var(--transition);
-    font-size: 0.9rem;
+    transition: all 0.2s ease-in-out;
+    font-size: 0.875rem;
+    font-weight: 500;
 }
 
-.filter-btn:hover,
+.filter-btn:hover {
+    background: hsl(var(--accent));
+    color: hsl(var(--accent-foreground));
+}
+
 .filter-btn.active {
-    background: var(--primary-color);
-    color: white;
-    border-color: var(--primary-color);
+    background: hsl(var(--primary));
+    color: hsl(var(--primary-foreground));
+    border-color: hsl(var(--primary));
 }
 
-/* Todo List */
+/* Todo List - shadcn/ui New York */
 .todo-list {
     display: flex;
     flex-direction: column;
-    gap: var(--spacing-md);
+    gap: var(--spacing-3);
 }
 
 .empty-state {
     text-align: center;
-    padding: var(--spacing-xl);
-    color: var(--text-secondary);
+    padding: var(--spacing-12);
+    color: hsl(var(--muted-foreground));
 }
 
 .empty-icon {
     font-size: 3rem;
-    margin-bottom: var(--spacing-md);
+    margin-bottom: var(--spacing-4);
     opacity: 0.5;
+    color: hsl(var(--muted-foreground));
 }
 
 .empty-state h3 {
-    font-size: 1.2rem;
-    margin-bottom: var(--spacing-sm);
-    color: var(--text-primary);
+    font-size: 1.125rem; /* 18px */
+    margin-bottom: var(--spacing-2);
+    color: hsl(var(--foreground));
+    font-weight: 600;
 }
 
-/* Todo Item */
+.empty-state p {
+    font-size: 0.875rem;
+    color: hsl(var(--muted-foreground));
+}
+
+/* Todo Item - shadcn/ui New York */
 .todo-item {
-    background: var(--background-color);
-    border: 1px solid var(--border-color);
-    border-radius: var(--radius-md);
-    padding: var(--spacing-md);
+    background: hsl(var(--card));
+    border: 1px solid hsl(var(--border));
+    border-radius: calc(var(--radius) - 2px);
+    padding: var(--spacing-4);
     display: flex;
     justify-content: space-between;
     align-items: center;
-    transition: var(--transition);
+    transition: all 0.2s ease-in-out;
     position: relative;
 }
 
 .todo-item:hover {
-    box-shadow: var(--shadow);
+    box-shadow: var(--shadow-md);
     transform: translateY(-1px);
 }
 
 .todo-item.high-priority {
-    border-left: 4px solid var(--priority-high);
+    border-left: 3px solid hsl(var(--priority-high));
 }
 
 .todo-item.medium-priority {
-    border-left: 4px solid var(--priority-medium);
+    border-left: 3px solid hsl(var(--priority-medium));
 }
 
 .todo-item.low-priority {
-    border-left: 4px solid var(--priority-low);
+    border-left: 3px solid hsl(var(--priority-low));
 }
 
 .todo-content {
     display: flex;
     align-items: center;
-    gap: var(--spacing-md);
+    gap: var(--spacing-3);
     flex: 1;
 }
 
 .todo-checkbox {
-    width: 20px;
-    height: 20px;
+    width: 16px;
+    height: 16px;
     cursor: pointer;
-    accent-color: var(--primary-color);
+    accent-color: hsl(var(--primary));
 }
 
 .todo-text {
     flex: 1;
-    font-size: 1rem;
-    color: var(--text-primary);
+    font-size: 0.875rem;
+    color: hsl(var(--foreground));
     cursor: pointer;
-    transition: var(--transition);
+    transition: all 0.2s ease-in-out;
+    font-weight: 400;
 }
 
 .todo-text.completed {
     text-decoration: line-through;
-    color: var(--text-secondary);
+    color: hsl(var(--muted-foreground));
     opacity: 0.7;
 }
 
 .todo-meta {
     display: flex;
     align-items: center;
-    gap: var(--spacing-sm);
-    margin-left: var(--spacing-md);
+    gap: var(--spacing-2);
+    margin-left: var(--spacing-3);
 }
 
 .priority-badge {
-    padding: var(--spacing-xs) var(--spacing-sm);
-    border-radius: var(--radius-sm);
-    font-size: 0.8rem;
+    padding: var(--spacing-1) var(--spacing-2);
+    border-radius: calc(var(--radius) - 4px);
+    font-size: 0.75rem;
     font-weight: 500;
     color: white;
+    text-transform: uppercase;
+    letter-spacing: 0.025em;
 }
 
 .priority-badge.high {
-    background: var(--priority-high);
+    background: hsl(var(--priority-high));
 }
 
 .priority-badge.medium {
-    background: var(--priority-medium);
+    background: hsl(var(--priority-medium));
 }
 
 .priority-badge.low {
-    background: var(--priority-low);
+    background: hsl(var(--priority-low));
 }
 
 .todo-date {
-    font-size: 0.8rem;
-    color: var(--text-secondary);
+    font-size: 0.75rem;
+    color: hsl(var(--muted-foreground));
+    font-weight: 400;
 }
 
 .todo-actions {
     display: flex;
-    gap: var(--spacing-sm);
+    gap: var(--spacing-1);
 }
 
 .action-btn {
     background: none;
     border: none;
-    padding: var(--spacing-sm);
-    border-radius: var(--radius-sm);
+    padding: var(--spacing-2);
+    border-radius: calc(var(--radius) - 4px);
     cursor: pointer;
-    transition: var(--transition);
-    color: var(--text-secondary);
+    transition: all 0.2s ease-in-out;
+    color: hsl(var(--muted-foreground));
+    display: flex;
+    align-items: center;
+    justify-content: center;
 }
 
 .action-btn:hover {
-    background: var(--surface-color);
-    color: var(--text-primary);
+    background: hsl(var(--accent));
+    color: hsl(var(--accent-foreground));
 }
 
 .edit-btn:hover {
-    color: var(--primary-color);
+    color: hsl(var(--primary));
 }
 
 .delete-btn:hover {
-    color: var(--danger-color);
+    color: hsl(var(--destructive));
 }
 
-/* Footer */
+/* Footer - shadcn/ui New York */
 .footer {
-    margin-top: var(--spacing-xl);
-    padding: var(--spacing-lg);
+    margin-top: var(--spacing-8);
+    padding: var(--spacing-6);
     text-align: center;
-    color: var(--text-secondary);
-    border-top: 1px solid var(--border-color);
+    color: hsl(var(--muted-foreground));
+    border-top: 1px solid hsl(var(--border));
 }
 
 .footer-content {
@@ -474,32 +541,33 @@ body {
     justify-content: space-between;
     align-items: center;
     flex-wrap: wrap;
-    gap: var(--spacing-md);
+    gap: var(--spacing-4);
 }
 
 .footer-links {
     display: flex;
-    gap: var(--spacing-md);
+    gap: var(--spacing-3);
 }
 
 .footer-btn {
     background: none;
-    border: 1px solid var(--border-color);
-    color: var(--text-secondary);
-    padding: var(--spacing-sm) var(--spacing-md);
-    border-radius: var(--radius-md);
+    border: 1px solid hsl(var(--border));
+    color: hsl(var(--muted-foreground));
+    padding: var(--spacing-2) var(--spacing-3);
+    border-radius: calc(var(--radius) - 2px);
     cursor: pointer;
-    transition: var(--transition);
-    font-size: 0.9rem;
+    transition: all 0.2s ease-in-out;
+    font-size: 0.875rem;
+    font-weight: 500;
 }
 
 .footer-btn:hover {
-    background: var(--primary-color);
-    color: white;
-    border-color: var(--primary-color);
+    background: hsl(var(--primary));
+    color: hsl(var(--primary-foreground));
+    border-color: hsl(var(--primary));
 }
 
-/* Modal */
+/* Modal - shadcn/ui New York */
 .modal {
     display: none;
     position: fixed;
@@ -511,6 +579,7 @@ body {
     z-index: 1000;
     align-items: center;
     justify-content: center;
+    backdrop-filter: blur(4px);
 }
 
 .modal.show {
@@ -518,113 +587,125 @@ body {
 }
 
 .modal-content {
-    background: var(--surface-color);
-    border-radius: var(--radius-lg);
-    padding: var(--spacing-xl);
+    background: hsl(var(--card));
+    border: 1px solid hsl(var(--border));
+    border-radius: var(--radius);
+    padding: var(--spacing-8);
     width: 90%;
     max-width: 500px;
-    box-shadow: var(--shadow-hover);
-    border: 1px solid var(--border-color);
+    box-shadow: var(--shadow-xl);
 }
 
 .modal-header {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    margin-bottom: var(--spacing-lg);
+    margin-bottom: var(--spacing-6);
 }
 
 .modal-header h3 {
-    font-size: 1.3rem;
+    font-size: 1.25rem; /* 20px */
     font-weight: 600;
+    color: hsl(var(--foreground));
+    letter-spacing: -0.025em;
 }
 
 .modal-close {
     background: none;
     border: none;
-    font-size: 1.2rem;
+    font-size: 1.125rem;
     cursor: pointer;
-    color: var(--text-secondary);
-    transition: var(--transition);
+    color: hsl(var(--muted-foreground));
+    transition: all 0.2s ease-in-out;
+    padding: var(--spacing-1);
+    border-radius: calc(var(--radius) - 4px);
 }
 
 .modal-close:hover {
-    color: var(--text-primary);
+    color: hsl(var(--foreground));
+    background: hsl(var(--accent));
 }
 
 .edit-form {
     display: flex;
     flex-direction: column;
-    gap: var(--spacing-md);
+    gap: var(--spacing-4);
 }
 
 .edit-input {
     width: 100%;
-    padding: var(--spacing-md);
-    border: 2px solid var(--border-color);
-    border-radius: var(--radius-md);
-    font-size: 1rem;
-    background: var(--background-color);
-    color: var(--text-primary);
-    transition: var(--transition);
+    padding: var(--spacing-3) var(--spacing-4);
+    border: 1px solid hsl(var(--input));
+    border-radius: calc(var(--radius) - 2px);
+    font-size: 0.875rem;
+    background: hsl(var(--background));
+    color: hsl(var(--foreground));
+    transition: all 0.2s ease-in-out;
+    font-weight: 400;
 }
 
 .edit-input:focus {
     outline: none;
-    border-color: var(--primary-color);
-    box-shadow: 0 0 0 3px rgba(74, 144, 226, 0.1);
+    border-color: hsl(var(--ring));
+    box-shadow: 0 0 0 2px hsl(var(--ring) / 0.2);
 }
 
 .edit-priority {
     display: flex;
-    gap: var(--spacing-md);
+    gap: var(--spacing-3);
     justify-content: center;
 }
 
 .modal-actions {
     display: flex;
-    gap: var(--spacing-md);
+    gap: var(--spacing-3);
     justify-content: flex-end;
-    margin-top: var(--spacing-md);
+    margin-top: var(--spacing-4);
 }
 
 .btn {
-    padding: var(--spacing-sm) var(--spacing-lg);
+    padding: var(--spacing-2) var(--spacing-4);
     border: none;
-    border-radius: var(--radius-md);
+    border-radius: calc(var(--radius) - 2px);
     cursor: pointer;
-    font-size: 0.9rem;
-    transition: var(--transition);
+    font-size: 0.875rem;
+    font-weight: 500;
+    transition: all 0.2s ease-in-out;
+    display: flex;
+    align-items: center;
+    justify-content: center;
 }
 
 .btn-primary {
-    background: var(--primary-color);
-    color: white;
+    background: hsl(var(--primary));
+    color: hsl(var(--primary-foreground));
 }
 
 .btn-primary:hover {
-    background: var(--secondary-color);
+    background: hsl(var(--primary) / 0.9);
 }
 
 .btn-secondary {
-    background: var(--background-color);
-    color: var(--text-primary);
-    border: 1px solid var(--border-color);
+    background: hsl(var(--secondary));
+    color: hsl(var(--secondary-foreground));
+    border: 1px solid hsl(var(--border));
 }
 
 .btn-secondary:hover {
-    background: var(--surface-color);
+    background: hsl(var(--secondary) / 0.8);
 }
 
-/* Responsive Design */
+/* Responsive Design - shadcn/ui New York */
 @media (max-width: 768px) {
     .app-container {
-        padding: var(--spacing-sm);
+        padding: var(--spacing-4);
+        gap: var(--spacing-4);
     }
     
     .header-content {
         flex-direction: column;
         text-align: center;
+        gap: var(--spacing-3);
     }
     
     .app-title {
@@ -638,6 +719,7 @@ body {
     .list-header {
         flex-direction: column;
         align-items: stretch;
+        gap: var(--spacing-3);
     }
     
     .filter-controls {
@@ -647,13 +729,13 @@ body {
     .todo-item {
         flex-direction: column;
         align-items: stretch;
-        gap: var(--spacing-md);
+        gap: var(--spacing-3);
     }
     
     .todo-content {
         flex-direction: column;
         align-items: stretch;
-        gap: var(--spacing-sm);
+        gap: var(--spacing-2);
     }
     
     .todo-meta {
@@ -668,6 +750,7 @@ body {
     .footer-content {
         flex-direction: column;
         text-align: center;
+        gap: var(--spacing-3);
     }
     
     .priority-selector {
@@ -681,13 +764,17 @@ body {
 }
 
 @media (max-width: 480px) {
+    .app-container {
+        padding: var(--spacing-3);
+    }
+    
     .app-title {
-        font-size: 1.3rem;
+        font-size: 1.25rem;
     }
     
     .modal-content {
-        padding: var(--spacing-lg);
-        margin: var(--spacing-md);
+        padding: var(--spacing-6);
+        margin: var(--spacing-4);
     }
     
     .edit-priority {
@@ -699,13 +786,13 @@ body {
     }
 }
 
-/* Animation Classes */
+/* Animation Classes - shadcn/ui New York */
 .fade-in {
-    animation: fadeIn 0.3s ease-in;
+    animation: fadeIn 0.2s ease-in-out;
 }
 
 .slide-in {
-    animation: slideIn 0.3s ease-out;
+    animation: slideIn 0.2s ease-out;
 }
 
 @keyframes fadeIn {
@@ -719,7 +806,7 @@ body {
 
 @keyframes slideIn {
     from {
-        transform: translateY(-10px);
+        transform: translateY(-8px);
         opacity: 0;
     }
     to {
@@ -728,24 +815,24 @@ body {
     }
 }
 
-/* Focus Styles for Accessibility */
+/* Focus Styles for Accessibility - shadcn/ui New York */
 button:focus,
 input:focus,
 .priority-label:focus-within {
-    outline: 2px solid var(--primary-color);
+    outline: 2px solid hsl(var(--ring));
     outline-offset: 2px;
 }
 
 /* High Contrast Mode Support */
 @media (prefers-contrast: high) {
     :root {
-        --border-color: #000000;
-        --text-secondary: #000000;
+        --border: 0 0% 0%;
+        --muted-foreground: 0 0% 0%;
     }
     
     [data-theme="dark"] {
-        --border-color: #FFFFFF;
-        --text-secondary: #FFFFFF;
+        --border: 0 0% 100%;
+        --muted-foreground: 0 0% 100%;
     }
 }
 
@@ -755,5 +842,21 @@ input:focus,
         animation-duration: 0.01ms !important;
         animation-iteration-count: 1 !important;
         transition-duration: 0.01ms !important;
+    }
+}
+
+/* Print Styles */
+@media print {
+    .header-controls,
+    .todo-actions,
+    .footer-links,
+    .modal {
+        display: none !important;
+    }
+    
+    .todo-item {
+        break-inside: avoid;
+        border: 1px solid #000;
+        margin-bottom: 0.5rem;
     }
 }
