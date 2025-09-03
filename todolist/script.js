@@ -1,5 +1,5 @@
-// Today's Todo - JavaScript Structure
-// 디자인 구현을 위한 기본 구조 (기능은 나중에 구현)
+// Today's Todo - Complete Functionality Implementation
+// shadcn/ui New York Style Todo Application
 
 class TodoApp {
     constructor() {
@@ -12,24 +12,25 @@ class TodoApp {
     }
     
     init() {
+        this.loadFromStorage();
         this.loadTheme();
         this.bindEvents();
+        this.renderTodos();
         this.updateStats();
-        this.showEmptyState();
     }
     
-    // 이벤트 바인딩
+    // Event Binding
     bindEvents() {
-        // 폼 제출
+        // Form submission
         const addForm = document.getElementById('add-todo-form');
         if (addForm) {
             addForm.addEventListener('submit', (e) => {
                 e.preventDefault();
-                console.log('할일 추가 폼 제출됨 (기능 미구현)');
+                this.addTodo();
             });
         }
         
-        // 테마 토글
+        // Theme toggle
         const themeToggle = document.getElementById('theme-toggle');
         if (themeToggle) {
             themeToggle.addEventListener('click', () => {
@@ -37,7 +38,7 @@ class TodoApp {
             });
         }
         
-        // 필터 버튼들
+        // Filter buttons
         const filterBtns = document.querySelectorAll('.filter-btn');
         filterBtns.forEach(btn => {
             btn.addEventListener('click', (e) => {
@@ -45,50 +46,43 @@ class TodoApp {
             });
         });
         
-        // 할일 체크박스들
-        const checkboxes = document.querySelectorAll('.todo-checkbox');
-        checkboxes.forEach(checkbox => {
-            checkbox.addEventListener('change', (e) => {
-                console.log('할일 완료 상태 변경됨 (기능 미구현)');
-            });
-        });
-        
-        // 편집 버튼들
-        const editBtns = document.querySelectorAll('.edit-btn');
-        editBtns.forEach(btn => {
-            btn.addEventListener('click', (e) => {
-                console.log('할일 편집 버튼 클릭됨 (기능 미구현)');
-            });
-        });
-        
-        // 삭제 버튼들
-        const deleteBtns = document.querySelectorAll('.delete-btn');
-        deleteBtns.forEach(btn => {
-            btn.addEventListener('click', (e) => {
-                console.log('할일 삭제 버튼 클릭됨 (기능 미구현)');
-            });
-        });
-        
-        // 모달 관련 이벤트
+        // Modal events
         this.bindModalEvents();
         
-        // 푸터 버튼들
+        // Footer buttons
         const exportBtn = document.getElementById('export-btn');
         if (exportBtn) {
             exportBtn.addEventListener('click', () => {
-                console.log('데이터 내보내기 (기능 미구현)');
+                this.exportData();
             });
         }
         
         const importBtn = document.getElementById('import-btn');
         if (importBtn) {
             importBtn.addEventListener('click', () => {
-                console.log('데이터 가져오기 (기능 미구현)');
+                this.triggerImport();
             });
         }
+        
+        // Keyboard shortcuts
+        document.addEventListener('keydown', (e) => {
+            this.handleKeyboardShortcuts(e);
+        });
+        
+        // Auto-save on page unload
+        window.addEventListener('beforeunload', () => {
+            this.saveToStorage();
+        });
+        
+        // Auto-save on visibility change
+        document.addEventListener('visibilitychange', () => {
+            if (document.hidden) {
+                this.saveToStorage();
+            }
+        });
     }
     
-    // 모달 이벤트 바인딩
+    // Modal event binding
     bindModalEvents() {
         const modal = document.getElementById('edit-modal');
         const modalClose = document.getElementById('modal-close');
@@ -110,12 +104,11 @@ class TodoApp {
         if (editForm) {
             editForm.addEventListener('submit', (e) => {
                 e.preventDefault();
-                console.log('할일 수정 폼 제출됨 (기능 미구현)');
-                this.closeModal();
+                this.updateTodo();
             });
         }
         
-        // 모달 배경 클릭 시 닫기
+        // Close modal on background click
         if (modal) {
             modal.addEventListener('click', (e) => {
                 if (e.target === modal) {
@@ -125,37 +118,117 @@ class TodoApp {
         }
     }
     
-    // 테마 토글
-    toggleTheme() {
-        this.currentTheme = this.currentTheme === 'light' ? 'dark' : 'light';
-        document.documentElement.setAttribute('data-theme', this.currentTheme);
-        localStorage.setItem('todo-theme', this.currentTheme);
+    // Add new todo
+    addTodo() {
+        const input = document.getElementById('todo-input');
+        const priorityRadios = document.querySelectorAll('input[name="priority"]');
         
-        // 테마 토글 버튼 아이콘 변경
-        const themeIcon = document.querySelector('#theme-toggle i');
-        if (themeIcon) {
-            themeIcon.className = this.currentTheme === 'light' ? 'fas fa-moon' : 'fas fa-sun';
+        const text = input.value.trim();
+        if (!text) return;
+        
+        let priority = 'medium';
+        priorityRadios.forEach(radio => {
+            if (radio.checked) {
+                priority = radio.value;
+            }
+        });
+        
+        const todo = {
+            id: this.generateId(),
+            text: text,
+            priority: priority,
+            completed: false,
+            createdAt: new Date().toISOString(),
+            completedAt: null
+        };
+        
+        this.todos.unshift(todo); // Add to beginning
+        input.value = '';
+        
+        this.renderTodos();
+        this.updateStats();
+        this.saveToStorage();
+        
+        // Show success animation
+        this.showNotification('Todo added successfully!', 'success');
+    }
+    
+    // Toggle todo completion
+    toggleTodo(id) {
+        const todo = this.todos.find(t => t.id === id);
+        if (todo) {
+            todo.completed = !todo.completed;
+            todo.completedAt = todo.completed ? new Date().toISOString() : null;
+            
+            this.renderTodos();
+            this.updateStats();
+            this.saveToStorage();
+            
+            const message = todo.completed ? 'Todo completed!' : 'Todo marked as pending';
+            this.showNotification(message, 'info');
         }
     }
     
-    // 테마 로드
-    loadTheme() {
-        const savedTheme = localStorage.getItem('todo-theme') || 'light';
-        this.currentTheme = savedTheme;
-        document.documentElement.setAttribute('data-theme', this.currentTheme);
-        
-        // 테마 토글 버튼 아이콘 설정
-        const themeIcon = document.querySelector('#theme-toggle i');
-        if (themeIcon) {
-            themeIcon.className = this.currentTheme === 'light' ? 'fas fa-moon' : 'fas fa-sun';
+    // Delete todo
+    deleteTodo(id) {
+        if (confirm('Are you sure you want to delete this todo?')) {
+            const index = this.todos.findIndex(t => t.id === id);
+            if (index > -1) {
+                this.todos.splice(index, 1);
+                
+                this.renderTodos();
+                this.updateStats();
+                this.saveToStorage();
+                
+                this.showNotification('Todo deleted successfully!', 'success');
+            }
         }
     }
     
-    // 필터 설정
+    // Edit todo
+    editTodo(id) {
+        const todo = this.todos.find(t => t.id === id);
+        if (todo) {
+            this.editingTodoId = id;
+            this.openModal(todo);
+        }
+    }
+    
+    // Update todo
+    updateTodo() {
+        if (!this.editingTodoId) return;
+        
+        const input = document.getElementById('edit-input');
+        const priorityRadios = document.querySelectorAll('input[name="edit-priority"]');
+        
+        const text = input.value.trim();
+        if (!text) return;
+        
+        let priority = 'medium';
+        priorityRadios.forEach(radio => {
+            if (radio.checked) {
+                priority = radio.value;
+            }
+        });
+        
+        const todo = this.todos.find(t => t.id === this.editingTodoId);
+        if (todo) {
+            todo.text = text;
+            todo.priority = priority;
+            
+            this.renderTodos();
+            this.saveToStorage();
+            this.closeModal();
+            
+            this.showNotification('Todo updated successfully!', 'success');
+        }
+    }
+    
+    // Set filter
     setFilter(filter) {
         this.currentFilter = filter;
         
-        // 필터 버튼 활성화 상태 업데이트
+        // Update filter button states
         const filterBtns = document.querySelectorAll('.filter-btn');
         filterBtns.forEach(btn => {
             btn.classList.remove('active');
@@ -164,10 +237,95 @@ class TodoApp {
             }
         });
         
-        console.log(`필터 변경됨: ${filter} (기능 미구현)`);
+        this.renderTodos();
     }
     
-    // 통계 업데이트
+    // Get filtered todos
+    getFilteredTodos() {
+        switch (this.currentFilter) {
+            case 'completed':
+                return this.todos.filter(todo => todo.completed);
+            case 'pending':
+                return this.todos.filter(todo => !todo.completed);
+            default:
+                return this.todos;
+        }
+    }
+    
+    // Render todos
+    renderTodos() {
+        const todoList = document.getElementById('todo-list');
+        const emptyState = document.getElementById('empty-state');
+        const filteredTodos = this.getFilteredTodos();
+        
+        if (filteredTodos.length === 0) {
+            todoList.innerHTML = '';
+            todoList.appendChild(emptyState);
+            emptyState.style.display = 'block';
+            return;
+        }
+        
+        emptyState.style.display = 'none';
+        
+        todoList.innerHTML = '';
+        
+        filteredTodos.forEach(todo => {
+            const todoElement = this.createTodoElement(todo);
+            todoList.appendChild(todoElement);
+        });
+    }
+    
+    // Create todo element
+    createTodoElement(todo) {
+        const todoDiv = document.createElement('div');
+        todoDiv.className = `todo-item ${todo.priority}-priority`;
+        todoDiv.setAttribute('data-id', todo.id);
+        
+        const priorityText = this.getPriorityText(todo.priority);
+        const formattedDate = this.formatDate(todo.createdAt);
+        
+        todoDiv.innerHTML = `
+            <div class="todo-content">
+                <input type="checkbox" class="todo-checkbox" id="todo-${todo.id}" ${todo.completed ? 'checked' : ''}>
+                <label for="todo-${todo.id}" class="todo-text ${todo.completed ? 'completed' : ''}">
+                    ${this.escapeHtml(todo.text)}
+                </label>
+                <div class="todo-meta">
+                    <span class="priority-badge ${todo.priority}">${priorityText}</span>
+                    <span class="todo-date">${formattedDate}</span>
+                </div>
+            </div>
+            <div class="todo-actions">
+                <button class="action-btn edit-btn" aria-label="Edit">
+                    <i class="fas fa-edit"></i>
+                </button>
+                <button class="action-btn delete-btn" aria-label="Delete">
+                    <i class="fas fa-trash"></i>
+                </button>
+            </div>
+        `;
+        
+        // Bind events for this todo
+        const checkbox = todoDiv.querySelector('.todo-checkbox');
+        const editBtn = todoDiv.querySelector('.edit-btn');
+        const deleteBtn = todoDiv.querySelector('.delete-btn');
+        
+        checkbox.addEventListener('change', () => {
+            this.toggleTodo(todo.id);
+        });
+        
+        editBtn.addEventListener('click', () => {
+            this.editTodo(todo.id);
+        });
+        
+        deleteBtn.addEventListener('click', () => {
+            this.deleteTodo(todo.id);
+        });
+        
+        return todoDiv;
+    }
+    
+    // Update statistics
     updateStats() {
         const totalElement = document.getElementById('total-todos');
         const completedElement = document.getElementById('completed-todos');
@@ -182,30 +340,53 @@ class TodoApp {
         }
     }
     
-    // 빈 상태 표시/숨김
-    showEmptyState() {
-        const emptyState = document.getElementById('empty-state');
-        const todoList = document.getElementById('todo-list');
+    // Theme management
+    toggleTheme() {
+        this.currentTheme = this.currentTheme === 'light' ? 'dark' : 'light';
+        document.documentElement.setAttribute('data-theme', this.currentTheme);
+        localStorage.setItem('todo-theme', this.currentTheme);
         
-        if (emptyState && todoList) {
-            // 샘플 할일이 있으면 빈 상태 숨김
-            const sampleTodos = todoList.querySelectorAll('.todo-item[data-id^="sample"]');
-            if (sampleTodos.length > 0) {
-                emptyState.style.display = 'none';
-            } else {
-                emptyState.style.display = 'block';
-            }
+        // Update theme toggle button icon
+        const themeIcon = document.querySelector('#theme-toggle i');
+        if (themeIcon) {
+            themeIcon.className = this.currentTheme === 'light' ? 'fas fa-moon' : 'fas fa-sun';
+        }
+        
+        this.showNotification(`Switched to ${this.currentTheme} theme`, 'info');
+    }
+    
+    loadTheme() {
+        const savedTheme = localStorage.getItem('todo-theme') || 'light';
+        this.currentTheme = savedTheme;
+        document.documentElement.setAttribute('data-theme', this.currentTheme);
+        
+        // Set theme toggle button icon
+        const themeIcon = document.querySelector('#theme-toggle i');
+        if (themeIcon) {
+            themeIcon.className = this.currentTheme === 'light' ? 'fas fa-moon' : 'fas fa-sun';
         }
     }
     
-    // 모달 열기
-    openModal(todoId = null) {
+    // Modal management
+    openModal(todo = null) {
         const modal = document.getElementById('edit-modal');
         if (modal) {
             modal.classList.add('show');
-            this.editingTodoId = todoId;
+            this.editingTodoId = todo ? todo.id : null;
             
-            // 포커스 관리
+            if (todo) {
+                // Populate form with todo data
+                const editInput = document.getElementById('edit-input');
+                const priorityRadios = document.querySelectorAll('input[name="edit-priority"]');
+                
+                editInput.value = todo.text;
+                
+                priorityRadios.forEach(radio => {
+                    radio.checked = radio.value === todo.priority;
+                });
+            }
+            
+            // Focus on input
             const editInput = document.getElementById('edit-input');
             if (editInput) {
                 setTimeout(() => editInput.focus(), 100);
@@ -213,14 +394,13 @@ class TodoApp {
         }
     }
     
-    // 모달 닫기
     closeModal() {
         const modal = document.getElementById('edit-modal');
         if (modal) {
             modal.classList.remove('show');
             this.editingTodoId = null;
             
-            // 폼 리셋
+            // Reset form
             const editForm = document.getElementById('edit-form');
             if (editForm) {
                 editForm.reset();
@@ -228,72 +408,36 @@ class TodoApp {
         }
     }
     
-    // 할일 추가 (구조만)
-    addTodo(text, priority = 'medium') {
-        const todo = {
-            id: Date.now().toString(),
-            text: text,
-            priority: priority,
-            completed: false,
-            createdAt: new Date().toISOString(),
-            completedAt: null
-        };
-        
-        this.todos.push(todo);
-        console.log('할일 추가됨:', todo);
-        return todo;
-    }
-    
-    // 할일 완료 토글 (구조만)
-    toggleTodo(id) {
-        const todo = this.todos.find(t => t.id === id);
-        if (todo) {
-            todo.completed = !todo.completed;
-            todo.completedAt = todo.completed ? new Date().toISOString() : null;
-            console.log('할일 상태 변경됨:', todo);
-        }
-    }
-    
-    // 할일 삭제 (구조만)
-    deleteTodo(id) {
-        const index = this.todos.findIndex(t => t.id === id);
-        if (index > -1) {
-            const deletedTodo = this.todos.splice(index, 1)[0];
-            console.log('할일 삭제됨:', deletedTodo);
-        }
-    }
-    
-    // 할일 수정 (구조만)
-    updateTodo(id, text, priority) {
-        const todo = this.todos.find(t => t.id === id);
-        if (todo) {
-            todo.text = text;
-            todo.priority = priority;
-            console.log('할일 수정됨:', todo);
-        }
-    }
-    
-    // 데이터 저장 (구조만)
+    // Data persistence
     saveToStorage() {
-        localStorage.setItem('todo-app-data', JSON.stringify(this.todos));
-        console.log('데이터 저장됨');
-    }
-    
-    // 데이터 로드 (구조만)
-    loadFromStorage() {
-        const saved = localStorage.getItem('todo-app-data');
-        if (saved) {
-            this.todos = JSON.parse(saved);
-            console.log('데이터 로드됨:', this.todos);
+        try {
+            localStorage.setItem('todo-app-data', JSON.stringify(this.todos));
+        } catch (error) {
+            console.error('Failed to save data:', error);
+            this.showNotification('Failed to save data', 'error');
         }
     }
     
-    // 데이터 내보내기 (구조만)
+    loadFromStorage() {
+        try {
+            const saved = localStorage.getItem('todo-app-data');
+            if (saved) {
+                this.todos = JSON.parse(saved);
+            }
+        } catch (error) {
+            console.error('Failed to load data:', error);
+            this.todos = [];
+            this.showNotification('Failed to load saved data', 'error');
+        }
+    }
+    
+    // Export/Import functionality
     exportData() {
         const data = {
             todos: this.todos,
             exportDate: new Date().toISOString(),
-            version: '1.0'
+            version: '1.0',
+            appName: "Today's Todo"
         };
         
         const blob = new Blob([JSON.stringify(data, null, 2)], { type: 'application/json' });
@@ -307,139 +451,177 @@ class TodoApp {
         document.body.removeChild(a);
         URL.revokeObjectURL(url);
         
-        console.log('데이터 내보내기 완료');
+        this.showNotification('Data exported successfully!', 'success');
     }
     
-    // 데이터 가져오기 (구조만)
+    triggerImport() {
+        const input = document.createElement('input');
+        input.type = 'file';
+        input.accept = '.json';
+        input.onchange = (e) => {
+            const file = e.target.files[0];
+            if (file) {
+                this.importData(file);
+            }
+        };
+        input.click();
+    }
+    
     importData(file) {
         const reader = new FileReader();
         reader.onload = (e) => {
             try {
                 const data = JSON.parse(e.target.result);
+                
                 if (data.todos && Array.isArray(data.todos)) {
-                    this.todos = data.todos;
-                    console.log('데이터 가져오기 완료:', this.todos);
+                    if (confirm('This will replace all your current todos. Are you sure?')) {
+                        this.todos = data.todos;
+                        this.renderTodos();
+                        this.updateStats();
+                        this.saveToStorage();
+                        this.showNotification('Data imported successfully!', 'success');
+                    }
                 } else {
-                    throw new Error('잘못된 파일 형식입니다.');
+                    throw new Error('Invalid file format');
                 }
             } catch (error) {
-                console.error('데이터 가져오기 실패:', error);
-                alert('파일을 읽을 수 없습니다. 올바른 백업 파일인지 확인해주세요.');
+                console.error('Import failed:', error);
+                this.showNotification('Failed to import data. Please check the file format.', 'error');
             }
         };
         reader.readAsText(file);
     }
-}
-
-// 유틸리티 함수들
-const Utils = {
-    // 날짜 포맷팅
-    formatDate(date) {
-        return new Date(date).toLocaleDateString('ko-KR', {
+    
+    // Keyboard shortcuts
+    handleKeyboardShortcuts(e) {
+        // Ctrl/Cmd + Enter: Focus on add todo input
+        if ((e.ctrlKey || e.metaKey) && e.key === 'Enter') {
+            const todoInput = document.getElementById('todo-input');
+            if (todoInput && document.activeElement !== todoInput) {
+                todoInput.focus();
+            }
+        }
+        
+        // Escape: Close modal
+        if (e.key === 'Escape') {
+            const modal = document.getElementById('edit-modal');
+            if (modal && modal.classList.contains('show')) {
+                this.closeModal();
+            }
+        }
+        
+        // Ctrl/Cmd + S: Save data
+        if ((e.ctrlKey || e.metaKey) && e.key === 's') {
+            e.preventDefault();
+            this.saveToStorage();
+            this.showNotification('Data saved!', 'success');
+        }
+    }
+    
+    // Notification system
+    showNotification(message, type = 'info') {
+        // Remove existing notifications
+        const existingNotifications = document.querySelectorAll('.notification');
+        existingNotifications.forEach(notification => notification.remove());
+        
+        const notification = document.createElement('div');
+        notification.className = `notification notification-${type}`;
+        notification.textContent = message;
+        
+        // Add styles
+        notification.style.cssText = `
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            padding: 12px 16px;
+            border-radius: 6px;
+            color: white;
+            font-weight: 500;
+            font-size: 14px;
+            z-index: 10000;
+            transform: translateX(100%);
+            transition: transform 0.3s ease-in-out;
+            max-width: 300px;
+            word-wrap: break-word;
+        `;
+        
+        // Set background color based on type
+        const colors = {
+            success: '#10b981',
+            error: '#ef4444',
+            info: '#3b82f6',
+            warning: '#f59e0b'
+        };
+        notification.style.backgroundColor = colors[type] || colors.info;
+        
+        document.body.appendChild(notification);
+        
+        // Animate in
+        setTimeout(() => {
+            notification.style.transform = 'translateX(0)';
+        }, 100);
+        
+        // Auto remove after 3 seconds
+        setTimeout(() => {
+            notification.style.transform = 'translateX(100%)';
+            setTimeout(() => {
+                if (notification.parentNode) {
+                    notification.remove();
+                }
+            }, 300);
+        }, 3000);
+    }
+    
+    // Utility functions
+    generateId() {
+        return Date.now().toString(36) + Math.random().toString(36).substr(2);
+    }
+    
+    formatDate(dateString) {
+        const date = new Date(dateString);
+        return date.toLocaleDateString('en-US', {
             year: 'numeric',
             month: '2-digit',
             day: '2-digit'
         });
-    },
+    }
     
-    // 우선순위 한글 변환
     getPriorityText(priority) {
         const priorityMap = {
-            'high': '높음',
-            'medium': '보통',
-            'low': '낮음'
+            'high': 'High',
+            'medium': 'Medium',
+            'low': 'Low'
         };
-        return priorityMap[priority] || '보통';
-    },
-    
-    // 우선순위 색상 클래스
-    getPriorityClass(priority) {
-        return `${priority}-priority`;
-    },
-    
-    // 고유 ID 생성
-    generateId() {
-        return Date.now().toString(36) + Math.random().toString(36).substr(2);
-    },
-    
-    // 디바운스 함수
-    debounce(func, wait) {
-        let timeout;
-        return function executedFunction(...args) {
-            const later = () => {
-                clearTimeout(timeout);
-                func(...args);
-            };
-            clearTimeout(timeout);
-            timeout = setTimeout(later, wait);
-        };
-    },
-    
-    // 로컬 스토리지 안전하게 사용
-    safeLocalStorage: {
-        getItem(key) {
-            try {
-                return localStorage.getItem(key);
-            } catch (e) {
-                console.warn('로컬 스토리지 접근 실패:', e);
-                return null;
-            }
-        },
-        
-        setItem(key, value) {
-            try {
-                localStorage.setItem(key, value);
-                return true;
-            } catch (e) {
-                console.warn('로컬 스토리지 저장 실패:', e);
-                return false;
-            }
-        }
+        return priorityMap[priority] || 'Medium';
     }
-};
-
-// 앱 초기화
-document.addEventListener('DOMContentLoaded', () => {
-    console.log('Today\'s Todo 앱이 시작됩니다.');
-    console.log('현재는 디자인 구현 단계입니다. 기능은 추후 구현 예정입니다.');
     
-    // 전역 앱 인스턴스 생성
+    escapeHtml(text) {
+        const div = document.createElement('div');
+        div.textContent = text;
+        return div.innerHTML;
+    }
+}
+
+// Initialize app when DOM is loaded
+document.addEventListener('DOMContentLoaded', () => {
+    console.log("Today's Todo app initializing...");
+    
+    // Create global app instance
     window.todoApp = new TodoApp();
     
-    // 개발자 도구에서 앱 인스턴스 접근 가능
-    console.log('앱 인스턴스:', window.todoApp);
-    console.log('유틸리티 함수들:', Utils);
+    console.log('App initialized successfully!');
+    console.log('Available keyboard shortcuts:');
+    console.log('- Ctrl/Cmd + Enter: Focus add todo input');
+    console.log('- Escape: Close modal');
+    console.log('- Ctrl/Cmd + S: Save data');
 });
 
-// 키보드 단축키 (기본 구조)
-document.addEventListener('keydown', (e) => {
-    // Ctrl/Cmd + Enter: 새 할일 추가
-    if ((e.ctrlKey || e.metaKey) && e.key === 'Enter') {
-        const todoInput = document.getElementById('todo-input');
-        if (todoInput && document.activeElement !== todoInput) {
-            todoInput.focus();
-        }
-    }
-    
-    // Escape: 모달 닫기
-    if (e.key === 'Escape') {
-        const modal = document.getElementById('edit-modal');
-        if (modal && modal.classList.contains('show')) {
-            window.todoApp.closeModal();
-        }
-    }
-});
-
-// 페이지 가시성 변경 시 데이터 저장
-document.addEventListener('visibilitychange', () => {
-    if (document.hidden && window.todoApp) {
-        window.todoApp.saveToStorage();
-    }
-});
-
-// 페이지 언로드 시 데이터 저장
-window.addEventListener('beforeunload', () => {
-    if (window.todoApp) {
-        window.todoApp.saveToStorage();
-    }
-});
+// Service Worker registration for PWA capabilities (optional)
+if ('serviceWorker' in navigator) {
+    window.addEventListener('load', () => {
+        // Uncomment the following lines if you want to add PWA capabilities
+        // navigator.serviceWorker.register('/sw.js')
+        //     .then(registration => console.log('SW registered'))
+        //     .catch(registrationError => console.log('SW registration failed'));
+    });
+}
